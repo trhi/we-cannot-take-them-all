@@ -6,30 +6,31 @@
     body {background-color: powderblue;}
     p {color: blue;}
   </style>
-  <script>
   
+    <script>
+    
     function rnd_bg_color() {
       var x = Math.floor(Math.random() * 256);
       var y = Math.floor(Math.random() * 256);
       var z = Math.floor(Math.random() * 256);
       var randomColor = "rgb(" + x + "," + y + "," + z + ")";
-      console.log(bgColor);
+      console.log(randomColor);
       document.body.style.background-color = randomColor;
     }
     
-    rnd_bg_color();
+    //rnd_bg_color();
     
    // setTimeOut(rnd_bg-color()), 2000);
     
-  </script>  
+  </script> 
+  
+  
 </head>
 
 <body>
 
 <p>Don't be shy, just ask me: "Why are you here?"...</p>
-
-//<script>
-//  rnd_bg_color();
-//</sript>
+<p>Move over me to change my color</p>
+<p onmousemove="rnd_bg-color()"></p>
 
 </body>

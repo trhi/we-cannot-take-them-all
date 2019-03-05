@@ -7,14 +7,18 @@
 <body>
 
 <button type="button" id="german" onclick="oppositionVoiced(this.id)">I am German and I don't think that we should admit any more Afghans.</button><br>
-<button type="button" id ="finnish" onclick="oppositionVoiced(this.id)">I am Finnish and I don't think that we should admit any more Somalis.</button><br>
-<button type="button" id="english" onclick="oppositionVoiced(this.id)">I am English and I don't think that we should admit any more Romanians.</button><br>
-<button type="button" id="american" onclick="oppositionVoiced(this.id)">I am American and I don't think that we should admit any more Mexicans.</button>
+
 
   <p id="p2"> </p>
 
 
 <script>
+
+/*
+<button type="button" id="finnish" onclick="oppositionVoiced(this.id)">I am Finnish and I don't think that we should admit any more Somalis.</button><br>
+<button type="button" id="english" onclick="oppositionVoiced(this.id)">I am English and I don't think that we should admit any more Romanians.</button><br>
+<button type="button" id="american" onclick="oppositionVoiced(this.id)">I am American and I don't think that we should admit any more Mexicans.</button>
+*/
 
 var information = "This is a combinatory artwork based on a text written by professor of Political Science Joseph Carens. " +
 "Joseph Carens wrote this text as a generalisation of sentiments by those opposed to admitting Jewish refugees into America during world war II." +
@@ -28,21 +32,23 @@ var information = "This is a combinatory artwork based on a text written by prof
 //and then something else.
 //I need to think about this a little bit more...
 
+//Joseph Carens' generalisation is presented as an array, with some sentencess
+//grouped into the same index because they belong together.
 var carensGeneralisation = [
 "What is happening to the Jews is too bad, but it's not our fault. " +
 "We have our own problems. ",
 "If we take in all the Jews who want to come, we will be overwhelmed. " +
 "There are simply too many of them. ",
-"Besides, while Jews may be subject to discrimination and occasional acts of violence, things re not as bad as their advocacy groups say. " +
+"Besides, while Jews may be subject to discrimination and occasional acts of violence, things are not as bad as their advocacy groups say. " +
 "They exaggerate the problem. ",
-"Many of the Jews really just want better economic opportunities than they have now at home. " +
-"In fact, the ones who do manage to make it to North America to seek asylum cannot be among the worst off because they have enough economic resources to cross the Atlantic. ",
+"Many of the Jews just want better economic opportunities than they have at home. " +
+"The ones who manage to make it to North America cannot be among the worst off because they have enough economic resources to cross the Atlantic. ",
 "Times are tough here. " +
 "We have an obligation to look out for our own needy first. ",
 "A large infux of Jews could be a cultural and political threat. " +
 "They don't share our religious traditions or our democractic values. ",
 "Some of them are communists and pose a basic security threat, but it's hard to be sure which ones, so it's better to err on the side of caution in restricting entry. ",
-"Many of them have shown that they don't really respect the law because they have bribed officials abroad for exit permits and travel papers, they have purchased forged documents, they have hired smugglers to transport them illegally, and they have lied to our immigration officials. ",
+"Many of them have shown that they don't respect the law because they they have purchased forged documents, hired smugglers to transport them illegally, and lied to our immigration officials. ",
 "Admitting Jewish refugees does not help to address the underlying problems that have given rise to the Nazi phenomenon."
 ];
 
@@ -52,13 +58,22 @@ var me = {};
 var refugees = {};
 var refugeeSituation = {};
 
+//For the purposes of this code, 'me' is characterised by my nationality and my scaryOther,
+//the "Other" which I am scared of
 //me = {nationality:"", scaryOther:""};
+
+//For the purposes of this code, 'refugee' is characterised by their nationality,
+//the geographicalObstacle they face while fleeing, and finally, the promisedLand,
+//ie. the nation which the refugee hopes will become a cradle for a better life
 //refugees = {nationality:"", opressor:"", geographicalObstacle:"", promisedLand:""};
 
+//For the purposes of this code, a refugeeSituation is characterised by the
+//relationship between me and the refugees.
 //refugeeSituation = {me: me, refugees: refugees};
 
 //var someRefugeeSituations = {};
 
+//try to figure out how to create the 'refugeeSituation', 'me' and 'refugee' objects
 me = {nationality:"german",scaryOther:"muslim extremists"};
 refugees = {nationality:"Afghan", opressor:"taleban", geographicalObstacle:"Mediterranean", promisedLand:"Germany"};
 refugeeSituation = {me: me, refugees: refugees};
@@ -67,8 +82,6 @@ var synth = window.speechSynthesis;
 var speakThis = new SpeechSynthesisUtterance;
 //speakThis.lang = setLanguage();
 speakThis.text = '';
-
-
 
 /*
 someRefugeeSituations = {
@@ -96,10 +109,11 @@ function oppositionVoiced(myNationality){
   //these should all exist in an array identified by the nationality of the local who is opposed to refugees.
 
   //me.nationality = myNationality;
+  //populateTheRefugeeSituation(myNationality);
 
   var myFullandHonestOpinion = replaceCarensGeneralisationWith(refugeeSituation);
-  //var myBriefOpinion = chooseSomeSentencesFrom(myFullandHonestOpinion);
-  speakMyOpinion(me.nationality, myFullandHonestOpinion);
+  var myBriefOpinion = chooseSomeSentencesFrom(myFullandHonestOpinion);
+  speakMyOpinion(me.nationality, myBriefOpinion);
 
 /*
   for(i=0; i<someRefugeeSituations.length; i++){
@@ -134,117 +148,82 @@ function oppositionVoiced(myNationality){
       myOpinion[i] = myOpinion[i].replace(/Nazi/g, refugeeSituation.refugees.opressor);
       console.log(myOpinion[i]);
     }//end of replaceCarensGeneralisationWith
-
-    /* this is old code for replacing elements in what used to be just a huge string
-    and is now an array
-    myOpinion = carensGeneralisation.replace(/Jew/g, refugeeSituation.refugees.nationality);//global replace of all instances of Jews
-    console.log("Opinion is: " + myOpinion);
-    myOpinion = myOpinion.replace("Jewish", refugeeSituation.refugees.nationality);//global replace of all instances of Jews
-    console.log("Opinion is: " + myOpinion);
-    myOpinion = myOpinion.replace("North America", refugeeSituation.refugees.promisedLand);
-    console.log("Opinion is: " + myOpinion);
-    myOpinion = myOpinion.replace("Atlantic", refugeeSituation.refugees.geographicalObstacle);
-    console.log("Opinion is: " + myOpinion);
-    myOpinion = myOpinion.replace("communists", refugeeSituation.me.scaryOther);
-    console.log("Opinion is: " + myOpinion);
-    myOpinion = myOpinion.replace(/Nazi/g, refugeeSituation.refugees.opressor);//global replace of all instances of Nazi
-    console.log("Opinion is: " + myOpinion);
-    return myOpinion;*/
-
     return myOpinion;
-  };
+  }//end of replaceCarensGeneralisationWith()
+
+  function chooseSomeSentencesFrom(myFullandHonestOpinion){
+    var someSentences = [];//keep it as an array!
+    someSentences[0] = myFullandHonestOpinion[0];
+    //returns a random integer between 1 and length of array - 1
+    var randomIndex = Math.floor(Math.random() * (myFullandHonestOpinion.length-1)) + 1;
+    console.log("randomIndex is:" + randomIndex);
+    someSentences[1] = myFullandHonestOpinion[randomIndex];
+    console.log(someSentences);
+    return someSentences;
+  }//end of chooseSomeSentencesFrom()
 
   function speakMyOpinion(language, opinion){
     console.log("Language is: " + language + " and opinion is: " + opinion);
-
-    var opinions = opinion.split(". ");
-    console.log(opinions);
-
-
-    var someOpinions = "";
-
-    someOpinions = selectSentences(opinions);
-
-    function selectSentences(opinions){
-      //there are 16 possible sentences. Select three or four sentences.
-      //This makes it seem like the text is new or different every time
-      //...for the first few times ;-))))))
-      var indices = makeRandomIndices(opinions);
-
-      function makeRandomIndices(opinions){
-        var index;
-        var randomIndices = [];
-        for(i=1; i<=1;i++){//2 is the number of sentences we want
-          index = Math.floor((Math.random() * opinions.length-1) + 1);
-          randomIndices.push(index);
-          console.log("This is the random index: " + index);
-        }
-        console.log("These are the random indices: " + randomIndices);
-        return randomIndices;
-      }
-
-      var randomOpinion = "";
-      randomOpinion = constructOpinion(opinions, indices);
-
-      function constructOpinion(opinions, indices){
-        var newOpinion = "";
-        newOpinion += opinions[0] + ". ";//always starts with "What is happening..."
-        for(i=0;i<=0;i++){//two sentences
-          newOpinion += opinions[indices[i]] + ". ";
-          console.log("Random opinion is:" + newOpinion);
-        }
-        return newOpinion;
-      }
-
-/*
-      var newOpinion = "";
-      var counter = 0;
-      console.log("We made it to selectSentences()");
-      for(i=0; counter<=3; i++){
-        randomNumber = Math.floor((Math.random() * 10) + 1);
-        console.log("Random number is:" + randomNumber);
-        if(randomNumber>5){
-          newOpinion += opinions[i] + ". ";
-          counter++;
-          console.log("Selected sentence is:" + opinions[i] + "and counter is: " + counter);
-        }else{
-          console.log("No sentence selected.");
-        }
-      }
-      console.log("Selected sentences are:" + newOpinion);
-      return newOpinion;*/
-
-
-
+    //create a way to map me.nationality to the right lang code for the synthesiser
     speakThis.lang = "de-DE";
-    speakThis.text = randomOpinion;
+
+    /*speakThis.text = opinion[0];
+    synth.speak(speakThis);
+    synth.pause();*/
+
+    speakOneSentence(opinion[0]).then(value => speakOneSentence(opinion[1]));
+
+    function speakOneSentence(sentence){
+      return new Promise(function(resolve, reject){
+        speakThis.text = sentence;
+        synth.speak(speakThis);
+        //synth.resume();
+        var para = document.createElement("p");
+        var node = document.createTextNode(sentence);
+        para.appendChild(node);
+        console.log('adding text content to p2:' + sentence);
+        document.getElementById("p2").innerHTML = para.innerHTML;
+        console.log('added text content to p2');
+        /*var amISpeaking = synth.speaking;
+        if (!amISpeaking){
+          console.log('deleting text content');
+          document.getElementById("p2").innerHTML = "";
+          console.log('deleted text content');
+          //console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
+          resolve('resolved the promise');
+        }*/
+        speakThis.onend = function(event) {
+          console.log('deleting text content');
+          document.getElementById("p2").innerHTML = "";
+          console.log('deleted text content');
+          console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
+          resolve();
+        };
+
+      });//end of return new Promise
+
+    }//end of speakOneSentence
+
+
+    /*speakThis.text = opinion[0];
     synth.speak(speakThis);
 
-    speakThis.onend = function(event) {
+    speakThis.text = opinion[1];
+    synth.speak(speakThis);*/
+
+
+    /*speakThis.onend = function(event) {
       document.getElementById("p2").innerHTML = "";
       console.log('deleting text content');
-  console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
-}
-
-    //document.body.innerHTML.insertAdjacentText(opinion);
-
-    var para = document.createElement("p");
-    var node = document.createTextNode(randomOpinion);
-    para.appendChild(node);
+      console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
+    }*/
 
     //var element = document.getElementById("transcriptDiv");
     //element.appendChild(para);
 
-    console.log('adding text content to p2');
-    document.getElementById("p2").innerHTML = para.innerHTML;
-    console.log('added text content to p2');
 
 
-
-
-};
-
-  };
+  };//end of speakMyOpinion()
 
 }//end of oppositionVoiced
 

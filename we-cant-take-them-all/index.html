@@ -10,6 +10,7 @@
 
 
   <p id="p2"> </p>
+  <p id="p3"> </p>
 
 
 <script>
@@ -102,6 +103,56 @@ var someSampleRefugeeSituations{
   {nationalityMe:"american", nationalityRefugees:"Venezuelans", promisedLand:"America", geographicalObstacle:"the Mexican border", scaryOther:"criminals", opressor:"Maduro regime"}
 };
 */
+
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    var transcript = '';
+    var final_transcript = '';
+
+    recognition.onresult = function(event) {
+
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        final_transcript = event.results[i][0].transcript;
+
+        /*var element = document.getElementById("transcriptDiv");
+        var paraFinal = document.createElement("p");
+        var nodeFinal = document.createTextNode(paraFinal);
+        element.appendChild(nodeFinal);*/
+
+      } else {
+        transcript = event.results[i][0].transcript;
+      }
+    }
+
+      //var transcript = event.results[0][0].transcript;
+
+      var para = document.createElement("p");
+      var node = document.createTextNode(transcript);
+      para.appendChild(node);
+
+      //var element = document.getElementById("transcriptDiv");
+      //element.appendChild(para);
+
+      console.log('adding text content to p3');
+      document.getElementById("p3").innerHTML = para.innerHTML;
+      console.log('added text content to p3');
+
+      recognition.onaudioend = function(){
+        recognition.stop();
+      }
+
+
+    };
+
+    recognition.onerror = function(event) {
+      console.log(event.error);
+    };
+
+
 
 function oppositionVoiced(myNationality){
   //nationality becomes the voice of the speechSynthesizer;

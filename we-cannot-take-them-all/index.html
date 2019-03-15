@@ -87,6 +87,7 @@
     let refugeeSituation4 = new RefugeeSituation(me4, refugees4);
     console.log(refugeeSituation4);
 
+    var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
 
     /*let me1 = new Me("german", "muslim extremists");
     let refugees1 = new Refugees("Afghan", "taleban", "Mediterranean","Germany");
@@ -168,15 +169,17 @@
       //instructionsDiv.appendChild(para3);
 
 
+
+
     }
 
     function displayRefugeeSituationSentences(){
 
-        var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
-        let situation1 = "I am " + refugeeSituation1.me.nationality + "    ";
-        let situation2 = "I am " + refugeeSituation2.me.nationality + "    ";
-        let situation3 = "I am from Finland ";
-        let situation4 = "I am " + refugeeSituation4.me.nationality + "    ";
+        //var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
+        let situation1 = "__ I am " + refugeeSituation1.me.nationality + "    ";
+        let situation2 = "__ I am " + refugeeSituation2.me.nationality + "    ";
+        let situation3 = "__ I am from Finland ";
+        let situation4 = "__ I am " + refugeeSituation4.me.nationality + "    ";
 
 
         var para1 = document.createElement("p");
@@ -208,6 +211,8 @@
         refugeeSituationDiv.appendChild(para2);
         refugeeSituationDiv.appendChild(para3);
         refugeeSituationDiv.appendChild(para4);
+
+        refugeeSituationDiv.style.borderLeft = "2px dotted black";
 
     }
 
@@ -262,21 +267,33 @@
 
       if (speechToText.includes("I am German")) {
           console.log("Pressing button: I am German");
+          var boxChecked = refugeeSituationDiv.childNodes[1].textContent.replace("__", "_X_");
+          console.log(boxChecked);
+          refugeeSituationDiv.childNodes[1].textContent = boxChecked;
           oppositionVoiced(refugeeSituation1);
       };
 
       if (speechToText.includes("I am from Finland")) {
           console.log("Pressing button: I from Finland");
+          var boxChecked = refugeeSituationDiv.childNodes[3].textContent.replace("__", "_X_");
+          console.log(boxChecked);
+          refugeeSituationDiv.childNodes[3].textContent = boxChecked;
           oppositionVoiced(refugeeSituation3);
       };
 
       if (speechToText.includes("I am American")) {
           console.log("Pressing button: I am American");
+          var boxChecked = refugeeSituationDiv.childNodes[2].textContent.replace("__", "_X_");
+          console.log(boxChecked);
+          refugeeSituationDiv.childNodes[2].textContent = boxChecked;
           oppositionVoiced(refugeeSituation2);
       };
 
       if (speechToText.includes("I am Portuguese")) {
           console.log("Pressing button: I am Portuguese");
+          var boxChecked = refugeeSituationDiv.childNodes[4].textContent.replace("__", "_X_");
+          console.log(boxChecked);
+          refugeeSituationDiv.childNodes[4].textContent = boxChecked;
           oppositionVoiced(refugeeSituation4);
       };
 
@@ -478,7 +495,13 @@ function oppositionVoiced(refugeeSituation){
 
     speakOneSentence(opinion[0])
     .then(value => speakOneSentence(opinion[1]))
-    .then(value => recognition.start());
+    .then(value => {
+      for (i=1; i<refugeeSituationDiv.childNodes.length;i++){
+        var boxUnChecked = refugeeSituationDiv.childNodes[i].textContent.replace("_X_","__");
+        refugeeSituationDiv.childNodes[i].textContent = boxUnChecked;
+      }
+      recognition.start()
+    });
 
     function speakOneSentence(sentence){
       return new Promise(function(resolve, reject){

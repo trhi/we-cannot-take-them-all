@@ -28,6 +28,11 @@
         displayInstructions();
         console.log("Starting speech recognition");
         recognition.start();
+
+        console.log("Giving information");
+        giveInformation()
+        .then(value => recognition.start());
+
         /*
         btn.id="german";
         btn.onClick="oppositionVoiced(this.id)"

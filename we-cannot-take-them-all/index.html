@@ -29,9 +29,24 @@
         console.log("Starting speech recognition");
         recognition.start();
 
+        //this is the initialisation routine of the system:
+        //First, we introduce the piece.
         console.log("Giving information");
-        giveInformation()
-        .then(value => recognition.start());
+        giveInformation().then(value => recognition.start());
+
+
+        //this is the initialisation routine of the system:
+        //First, we introduce the piece.
+        //Then, we ask for your name.
+        /*console.log("Giving information");
+        giveInformation().then(value => askForName())
+        .then(value => recognition.start());*/
+
+        //.then(value => recognition.start());
+
+        /*console.log("Asking for name");
+        askForName()
+        .then(value => recognition.start());*/
 
         /*
         btn.id="german";
@@ -46,9 +61,55 @@
     <button type="button" id="american" onclick="oppositionVoiced(this.id)">I am American and I don't think that we should admit any more Mexicans.</button>
     */
 
-    var information = "Choose a nationality to play. " +
+    function askForName(){
+      return new Promise(function(resolve, reject){
+
+        while (recognitionDiv.hasChildNodes()) {
+          recognitionDiv.removeChild(recognitionDiv.firstChild);
+        }
+
+        console.log("Stopping recognition");
+        recognition.stop();
+        var informationPara = document.createElement("p");
+        var informationTextNode = document.createTextNode("Now then, what is your name?");
+        informationPara.appendChild(informationTextNode);
+        recognitionDiv.insertBefore(informationPara, recognitionDiv.childNodes[0]);
+
+        //var speakThis is declared as a global variable. This way there is never
+        //any garbage collecting in place of that variable name
+        //multiple instances of speakThis cause confusion for speakThis.onend or
+        //other speech synthesiser events
+        //var speakThis = new SpeechSynthesisUtterance;
+        speakThis.text = "Now then, what is your name?";
+        synth.speak(speakThis);
+
+        speakThis.onend = function(event) {
+          //console.log('deleting text content');
+          //document.getElementById("p2").innerHTML = "";
+          //console.log('deleted text content');
+          console.log('Name asked in: ' + event.elapsedTime + ' milliseconds.');
+          eventcounter = -1;
+          while (recognitionDiv.hasChildNodes()) {
+            recognitionDiv.removeChild(recognitionDiv.firstChild);
+          }
+          resolve();
+        };
+      });
+    };
+
+    /*
+    var information = "We replace concepts in a text written by professor Joseph Carens. " +
+    "Carens' text is a summary of common anti-refugee rationalisations. " +
+    "Now, choose a nationality by saying, for example, 'I am American'";
+    */
+
+    //new instructions. Making the instructions part of the piece.
+    var information = "Let's listen to why we cannot take them all. " +
+    "Now, choose a nationality by saying, for example, 'I am American'";
+
+    /*"Choose a nationality to play. " +
     "Then we replace concepts in a text written by professor Joseph Carens. " +
-    "Carens' text is a summary of common anti-refugee rationalisations. ";
+    "Carens' text is a summary of common anti-refugee rationalisations. ";*/
 
     //Joseph Carens' generalisation is presented as an array, with some sentencess
     //grouped into the same index because they belong together.
@@ -143,20 +204,25 @@
 
       var instructionsDiv = document.getElementById("instructionsDiv");
       let instruction1 = "Say any of these:";
-      let instruction2 = "(What is this?)";
+      //let instruction2 = "(What is this?)";
       //let instruction3 = "Speak my poem";
 
+      //show the "Say any of these -instruction"
       var para1 = document.createElement("p");
       var textNode1 = document.createTextNode(instruction1);
       para1.appendChild(textNode1);
       //var newElem1 = document.createElement("BR");
       //para1.appendChild(newElem1);
 
+      //show the "What is this? instruction"
+      /*
       var para2 = document.createElement("p");
       var textNode2 = document.createTextNode(instruction2);
       para2.appendChild(textNode2);
 
+
       para2.style.fontStyle = "italic";
+      */
 
       //var newElem2 = document.createElement("BR");
       //para1.appendChild(newElem2);
@@ -170,7 +236,7 @@
       //instructionsDiv.appendChild(para3);
 
       instructionsDiv.appendChild(para1);
-      instructionsDiv.appendChild(para2);
+      //instructionsDiv.appendChild(para2);
       //instructionsDiv.appendChild(para3);
 
 

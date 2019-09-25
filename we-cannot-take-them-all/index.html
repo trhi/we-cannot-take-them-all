@@ -24,16 +24,21 @@
     function activate(){
         var btn = document.getElementById("activationButton");
         btn.remove();
-        displayRefugeeSituationSentences();
-        displayInstructions();
-        console.log("Starting speech recognition");
-        recognition.start();
+        //displayRefugeeSituationSentences();
+        //displayInstructions();
+        //console.log("Starting speech recognition");
+        //recognition.start();
 
         //this is the initialisation routine of the system:
         //First, we introduce the piece.
         console.log("Giving information");
-        giveInformation().then(value => recognition.start());
+        giveInformation().then(function(value){
+            console.log("Info done, going to other steps" + value);
+            displayRefugeeSituationSentences();
+            displayInstructions();
+            recognition.start()});
 
+//displayRefugeeSituationSentences(); displayInstructions();
 
         //this is the initialisation routine of the system:
         //First, we introduce the piece.
@@ -105,7 +110,7 @@
 
     //new instructions. Making the instructions part of the piece.
     var information = "Let's listen to why we cannot take them all. " +
-    "Now, choose a nationality by saying, for example, 'I am American'";
+    "Now, choose a nationality by saying, for example, 'I am American':";
 
     /*"Choose a nationality to play. " +
     "Then we replace concepts in a text written by professor Joseph Carens. " +

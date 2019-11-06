@@ -21,6 +21,13 @@
 
 <script>
 
+  //reloads the webpage every 120.000 ms.
+  //might consider setting reload only
+  //in case there is no user activity (ie. no speech events fired)
+  setInterval(function(){
+    window.location.reload(1);
+  }, 120000);
+
     function activate(){
         var btn = document.getElementById("activationButton");
         btn.remove();

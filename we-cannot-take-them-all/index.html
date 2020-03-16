@@ -244,7 +244,7 @@
     function startRecogniser(){
       if (synth.speaking) {
         $("#startRecogniser").html("Still speaking..");
-        setTimeout(function () { $("#startRecogniser").html("Start recogniser"); }, 1000);
+        setTimeout(function () { $("#startRecogniser").html("Listen to me"); }, 1000);
       } else {
         recognition.start();
         $("#recognitionP").text(" ... listening ");

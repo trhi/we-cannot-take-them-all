@@ -1,131 +1,92 @@
 <html>
-
 <head>
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+</head>
 
 <body>
 
+  <button type="button" style="font-size:12; visibility:hidden" id="startRecogniser" onclick="startRecogniser()">Listen to me</button><br>
 
-<button type="button" style="font-size:10vw" id="activationButton" onclick="activate()">Make sure your sound is on. Then click me to begin.</button><br>
+  <!--<p color="gray" class="pulse"> ... listening</div>-->
+
+  <div id="recognitionDiv" style="border:1px dotted black; border-radius:8px; visibility:visible">
+    <p id="recognitionP" style="visibility:visible" color="gray" class="pulse"> ... </p>
+  </div>
+  <div id="synthSpeakingDiv">
+  </div>
+
+  <p id="p2"> </p>
+
+  <button type="button" style="font-size:10vw" id="activationButton" onclick="activate()">Make sure your sound is on. Then click me to begin.</button><br>
 
   <div id="instructionsDiv">
   </div>
   <div id="refugeeSituationDiv">
   </div>
-  <div id="recognitionDiv">
-    </div>
-  <p id="p2"> </p>
+
   <p id="p3"> </p>
 
+  <script>
 
-<script>
+  //We Cannot Take Them All
+  //or: The Others
 
-  //reloads the webpage every 120.000 ms.
-  //might consider setting reload only
-  //in case there is no user activity (ie. no speech events fired)
-  setInterval(function(){
-    window.location.reload(1);
-  }, 120000);
+  //This text is a very slightly modified version of what appears in:
+  //Carens, Joseph (2015) The Ethics of Immigration. London: Oxford University Press.
+  //This excerpt is an imaginary list of reasons for why the general public
+  //in America may have been opposed to the idea of admitting Jewish refugees
+  //during World War Two. The idea is that these types of rationalisations
+  //may have surfaced during public discourse at the time, even by people who
+  //considered themselves only mildly opposed to the idea of admitting
+  //refugees.
 
-    function activate(){
-        var btn = document.getElementById("activationButton");
-        btn.remove();
-        //displayRefugeeSituationSentences();
-        //displayInstructions();
-        //console.log("Starting speech recognition");
-        //recognition.start();
+  //Carens' purpose with presenting these generalisations is to call our
+  //attention to how, in the light of what was revealed in the aftermath of the
+  //war of the full extent of the unacceptable and deadly conditions and
+  //discrimination to which Jews were subject under the Nazi regime,
+  //the concerns raised in these statements become blatantly disproportionate
+  //and meaningless to the extent of the suffering and true peril which the
+  //people fleeing Nazi persecution were facing at their origin countries.
 
-        //this is the initialisation routine of the system:
-        //First, we introduce the piece.
-        console.log("Giving information");
-        giveInformation().then(function(value){
-            console.log("Info done, going to other steps" + value);
-            displayRefugeeSituationSentences();
-            displayInstructions();
-            recognition.start()});
+  //Carens presents us with these statements so that we may reflect on the one
+  //hand, on whether we can identify this very same type of reasoning emerging
+  //in public discourse related to contemporary "refugee situations", and
+  //furthermore, to play out the thought experiment of: what if we later come
+  //to understand a more full picture of the suffering of the people who have
+  //chosen to distance themselves physically from the situations that produced
+  //their misery? Will these arguments continue to hold even the slightest
+  //degree of reason or moral weight, all other aspects considered?
 
-//displayRefugeeSituationSentences(); displayInstructions();
+  //The purpose of translating Carens' text into a generative piece which
+  //relies heavily on speech interaction is twofold: On the one hand, we utilise
+  //synthetic speech to invoke the idea of various countries and nationalities:
+  //whether familiar to us or not, a foreign accent will invoke a sense of another
+  //country. Meanwhile, it is also humorous to be exposed to a synthetic voice
+  //speaking in a heavy accent, which in turn makes one more likely to engage
+  //further with the piece. Moreover, the user cannot simply click to interact,
+  //but must use their very voice to tell the system "I am from __country__".
+  //Most will begin by choosing their own country, as this is the most natural
+  //statement to make. However, in order to further engage with the piece,
+  //one will begin to say "I am from __another country__ " in order to hear
+  //what that accent sounds like. One will choose accents with which one is
+  //familiar, or perhaps "play through them all" just for the fun of it.
 
-        //this is the initialisation routine of the system:
-        //First, we introduce the piece.
-        //Then, we ask for your name.
-        /*console.log("Giving information");
-        giveInformation().then(value => askForName())
-        .then(value => recognition.start());*/
+  //Meanwhile, amidst this play, the user inevitably is exposed to a mantra,
+  //which always begins with these three sentences:
+  //What is happening to the others is too bad, but it's not our fault. We
+  //cannot take them all. We have our own problems.
 
-        //.then(value => recognition.start());
+  //Through the humour of the very human factor of linguistic accents in
+  //spoken english, and through the fun of seeing their own speech transcribed
+  //onto the screen, the user is transported into the midst of the multifaceted
+  //discourse on whether or not societies should grant refuge to fellow humans
+  //in need.
 
-        /*console.log("Asking for name");
-        askForName()
-        .then(value => recognition.start());*/
-
-        /*
-        btn.id="german";
-        btn.onClick="oppositionVoiced(this.id)"
-        btn.innerHTML = "I am German and I don't think that we should admit any more afghans.";*/
-    }
-
-    /*
-      //<button type="button" id="german" onclick="oppositionVoiced(this.id)">I am German and I don't think that we should admit any more Afghans.</b
-    <button type="button" id="finnish" onclick="oppositionVoiced(this.id)">I am Finnish and I don't think that we should admit any more Somalis.</button><br>
-    <button type="button" id="english" onclick="oppositionVoiced(this.id)">I am English and I don't think that we should admit any more Romanians.</button><br>
-    <button type="button" id="american" onclick="oppositionVoiced(this.id)">I am American and I don't think that we should admit any more Mexicans.</button>
-    */
-
-    function askForName(){
-      return new Promise(function(resolve, reject){
-
-        while (recognitionDiv.hasChildNodes()) {
-          recognitionDiv.removeChild(recognitionDiv.firstChild);
-        }
-
-        console.log("Stopping recognition");
-        recognition.stop();
-        var informationPara = document.createElement("p");
-        var informationTextNode = document.createTextNode("Now then, what is your name?");
-        informationPara.appendChild(informationTextNode);
-        recognitionDiv.insertBefore(informationPara, recognitionDiv.childNodes[0]);
-
-        //var speakThis is declared as a global variable. This way there is never
-        //any garbage collecting in place of that variable name
-        //multiple instances of speakThis cause confusion for speakThis.onend or
-        //other speech synthesiser events
-        //var speakThis = new SpeechSynthesisUtterance;
-        speakThis.text = "Now then, what is your name?";
-        synth.speak(speakThis);
-
-        speakThis.onend = function(event) {
-          //console.log('deleting text content');
-          //document.getElementById("p2").innerHTML = "";
-          //console.log('deleted text content');
-          console.log('Name asked in: ' + event.elapsedTime + ' milliseconds.');
-          eventcounter = -1;
-          while (recognitionDiv.hasChildNodes()) {
-            recognitionDiv.removeChild(recognitionDiv.firstChild);
-          }
-          resolve();
-        };
-      });
-    };
-
-    /*
-    var information = "We replace concepts in a text written by professor Joseph Carens. " +
-    "Carens' text is a summary of common anti-refugee rationalisations. " +
-    "Now, choose a nationality by saying, for example, 'I am American'";
-    */
-
-    //new instructions. Making the instructions part of the piece.
-    var information = "Let's listen to why we cannot take them all. " +
-    "Now, choose a nationality by saying, for example, 'I am American':";
-
-    /*"Choose a nationality to play. " +
-    "Then we replace concepts in a text written by professor Joseph Carens. " +
-    "Carens' text is a summary of common anti-refugee rationalisations. ";*/
-
-    //Joseph Carens' generalisation is presented as an array, with some sentencess
-    //grouped into the same index because they belong together.
-    var carensGeneralisation = [
+  var carensGeneralisation = [
     "What is happening to the Jews is too bad, but it's not our fault. We cannot take them all. " +
     "We have our own problems. ",
     "If we take in all the Jews who want to come, we will be overwhelmed. " +
@@ -138,66 +99,93 @@
     "We have an obligation to look out for our own needy first. ",
     "A large infux of Jews could be a cultural and political threat. " +
     "They don't share our religious traditions or our democratic values. ",
-    "Some of them are communists and pose a basic security threat, but it's hard to be sure which ones, so it's better to err on the side of caution in restricting entry. ",
+    "Some of them are communists and pose a basic security threat, but it's hard to be sure which ones, so it's better not to let any of them in. ",
     "Many of them have shown that they don't respect the law because they have purchased forged documents, hired smugglers to transport them illegally, and lied to our immigration officials. ",
     "Admitting Jewish refugees does not help to address the underlying problems that have given rise to the Nazi phenomenon."
+  ]; // (Carens 2015, 193).
+
+    var languages = [
+      {bcp: "ar-SA", language: "Arabic", country: "Saudi Arabia"},
+      {bcp: "cs-CZ", language: "Czech", country: "the Czech Republic"},
+      {bcp: "da-DK", language: "Danish", country: "Denmark"},
+      {bcp: "de-DE", language: "German", country: "Germany"},
+      {bcp: "el-GR", language: "Modern Greek", country: "Greece"},
+      {bcp: "en-AU", language: "English", country: "Australia"},
+      {bcp: "en-GB", language: "English", country: "Great Britain"},
+      {bcp: "en-IE", language: "English", country: "Ireland"},
+      {bcp: "en-US", language: "English", country: "America"},
+      {bcp: "en-ZA", language: "English", country: "South Africa"},
+      {bcp: "es-ES", language: "Spanish", country: "Spain"},
+      {bcp: "es-MX", language: "Spanish", country: "Mexico"},
+      {bcp: "fi-FI", language: "Finnish", country: "Finland"},
+      {bcp: "fr-CA", language: "French", country: "Canada"},
+      {bcp: "fr-FR", language: "French", country: "France"},
+      {bcp: "he-IL", language: "Hebrew", country: "Israel"},
+      {bcp: "hi-IN", language: "Hindi", country: "India"},
+      {bcp: "hu-HU", language: "Hungarian", country: "Hungary"},
+      {bcp: "id-ID", language: "Indonesian", country: "Indonesia"},
+      {bcp: "it-IT", language: "Italian", country: "Italy"},
+      {bcp: "ja-JP", language: "Japanese", country: "Japan"},
+      {bcp: "ko-KR", language: "Korean", country: "South Korea"},
+      {bcp: "nl-BE", language: "Dutch", country: "Belgium"},
+      {bcp: "nl-NL", language: "Dutch", country: "the Netherlands"},
+      {bcp: "no-NO", language: "Norwegian", country: "Norway"},
+      {bcp: "pl-PL", language: "Polish", country: "Poland"},
+      {bcp: "pt-BR", language: "Portuguese", country: "Brazil"},
+      {bcp: "pt-PT", language: "Portuguese", country: "Portugal"},
+      {bcp: "ro-RO", language: "Romanian", country: "Romania"},
+      {bcp: "ru-RU", language: "Russian", country: "Russia"},
+      {bcp: "sk-SK", language: "Slovak", country: "Slovakia"},
+      {bcp: "sv-SE", language: "Swedish", country: "Sweden"},
+      {bcp: "th-TH", language: "Thai", country: "Thailand"},
+      {bcp: "tr-TR", language: "Turkish", country: "Turkey"},
+      {bcp: "zh-CN", language: "Chinese", country: "China"},
+      {bcp: "zh-HK", language: "Chinese", country: "Hong Kong"},
+      {bcp: "zh-TW", language: "Chinese", country: "Taiwan"}
     ];
 
-    console.log(carensGeneralisation);
+    var languagesArray = [];
 
-    let me1 = new Me("german", "extremists");
-    let refugees1 = new Refugees("foreigner", "discrimination and persecution by their opressors", "deserts, lands and sea", "Germany");
-    let refugeeSituation1 = new RefugeeSituation(me1, refugees1);
-    console.log(refugeeSituation1);
+    var information = "Let's listen to why we cannot take them all. " +
+    "Now, choose a nationality by saying, for example, 'I am from America':";
 
-    let me2 = new Me("american", "criminals");
-    let refugees2 = new Refugees("other", "poverty and lack of opportunities in their birth country", "border","America");
-    let refugeeSituation2 = new RefugeeSituation(me2, refugees2);
-    console.log(refugeeSituation2);
+    //for testing purposes:
+    //var information = "Let's listen";
 
-    let me3 = new Me("finnish", "simply very different from us");
-    let refugees3 = new Refugees("people in other countries", "civil war in their birth country", "enormous number of countries, rivers, seas and even continents between there and our northern lands","Finland");
-    let refugeeSituation3 = new RefugeeSituation(me3, refugees3);
-    console.log(refugeeSituation3);
+    //create a single refugee situtation object,
+    //with any number of concepts, words and phrases for any of the fields
+    //Let the algorithm choose from these and mix and match.
+    //And try to keep the structure of this data the same:
 
-    let me4 = new Me("portuguese", "bad people");
-    let refugees4 = new Refugees("foreign people", "terrible situations they face in their birth country", "national border by airplane", "Portugal");
-    let refugeeSituation4 = new RefugeeSituation(me4, refugees4);
-    console.log(refugeeSituation4);
+    // ME is described through two simple parameters:
+    // 1) the words and concepts that I use to describe The Other,
+    // and
+    // 2) what it is that makes me scared about them.
 
-    var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
+    // The way that the refugee is described hinges on three important elements:
+    // 1) what it is that they are physically distancing themselves from,
+    // 2) the barriers,
+    // physical as well as invisible,
+    // that they face as they attempt to project themselves
+    // away from their source of misery and towards their safe haven,
+    // and
+    // 3) the way we describe what they perceive as safety/a safe place.
 
-    /*let me1 = new Me("german", "muslim extremists");
-    let refugees1 = new Refugees("Afghan", "taleban", "Mediterranean","Germany");
-    let refugeeSituation1 = new RefugeeSituation(me1, refugees1);
-    console.log(refugeeSituation1);
+    //Although the original text is by Joseph Carens, the creation of these
+    //alternate, poetic, abstract and imaginative ways to generalise these five
+    //aspects describing refugees and "Me" in any refugee situation, can be
+    //understood as the creative and literary authorship of me.
 
-    let me2 = new Me("american", "criminals");
-    let refugees2 = new Refugees("Mexican", "drug war", "Mexican wall","America");
-    let refugeeSituation2 = new RefugeeSituation(me2, refugees2);
-    console.log(refugeeSituation2);
+    //Also, and importantly: the original idea of thinking through these
+    //hypothetical reasonings and generalisations related to
+    //any refugee situation in the world, is also of the authorship of Joseph
+    //Carens.
 
-    let me3 = new Me("finnish", "muslim extremists");
-    let refugees3 = new Refugees("Somali", "civil war", "Sahara desert","Finland");
-    let refugeeSituation3 = new RefugeeSituation(me3, refugees3);
-    console.log(refugeeSituation3);
-
-    let me4 = new Me("portuguese", "tax evaders");
-    let refugees4 = new Refugees("rich tourist", "bad weather", "the national border by airplane", "Portugal");
-    let refugeeSituation4 = new RefugeeSituation(me4, refugees4);
-    console.log(refugeeSituation4);*/
-
-
-    //For the purposes of this code, 'me' is characterised by my nationality and my scaryOther,
-    //the "Other" which I am scared of
     function Me(nationality, scaryOther){
       this.nationality = nationality;
       this.scaryOther = scaryOther;
     }
 
-    //For the purposes of this code, 'refugee' is characterised by their nationality,
-    //the geographicalObstacle they face while fleeing, and finally, the promisedLand,
-    //ie. the nation which the refugee hopes will become a cradle for a better life
     function Refugees(nationality, opressor, geographicalObstacle, promisedLand){
       this.nationality = nationality;
       this.opressor = opressor;
@@ -205,448 +193,358 @@
       this.promisedLand = promisedLand;
     }
 
-    //For the purposes of this code, a refugeeSituation is characterised by the
-    //relationship between me and the refugees.
     function RefugeeSituation(me, refugees){
       this.me = me;
       this.refugees = refugees;
     }
 
-    function displayInstructions(){
+    let me1 = new Me("german", "extremists");
+    let refugees1 = new Refugees("foreigner", "discrimination and persecution by their opressors", "deserts, lands and sea", "Germany");
+    let refugeeSituation1 = new RefugeeSituation(me1, refugees1);
 
-      var instructionsDiv = document.getElementById("instructionsDiv");
-      let instruction1 = "Say any of these:";
-      //let instruction2 = "(What is this?)";
-      //let instruction3 = "Speak my poem";
+    let me2 = new Me("american", "criminals");
+    let refugees2 = new Refugees("other", "poverty and lack of opportunities in their birth country", "border", "America");
+    let refugeeSituation2 = new RefugeeSituation(me2, refugees2);
 
-      //show the "Say any of these -instruction"
-      var para1 = document.createElement("p");
-      var textNode1 = document.createTextNode(instruction1);
-      para1.appendChild(textNode1);
-      //var newElem1 = document.createElement("BR");
-      //para1.appendChild(newElem1);
+    let me3 = new Me("finnish", "simply very different from us");
+    let refugees3 = new Refugees("people in other countries", "civil war in their birth country", "enormous number of countries, rivers, seas and even continents between there and our northern lands", "Finland");
+    let refugeeSituation3 = new RefugeeSituation(me3, refugees3);
 
-      //show the "What is this? instruction"
-      /*
-      var para2 = document.createElement("p");
-      var textNode2 = document.createTextNode(instruction2);
-      para2.appendChild(textNode2);
+    let me4 = new Me("portuguese", "bad people");
+    let refugees4 = new Refugees("foreign people", "terrible situations they face in their birth country", "national border by airplane", "Portugal");
+    let refugeeSituation4 = new RefugeeSituation(me4, refugees4);
 
+    //this is created to playback initially for a multitude of voices:
+    let meGeneric = new Me("person", "(by external appearances) so different from me. That makes me scared. I am sure many of them shouldnt be trusted");
+    let refugeesGeneric = new Refugees("other", "difficulties that they feel can only be solved by migrating", "all the obstacles, physical as well as immaterial, between their origin and our country.", "our country");
+    let refugeeSituationGeneric = new RefugeeSituation(meGeneric, refugeesGeneric);
 
-      para2.style.fontStyle = "italic";
-      */
-
-      //var newElem2 = document.createElement("BR");
-      //para1.appendChild(newElem2);
-      //instructionsDiv.appendChild(para2);
-
-      /*var para3 = document.createElement("p");
-      var textNode3 = document.createTextNode(instruction3);
-      para3.appendChild(textNode3);*/
-      //var newElem3 = document.createElement("BR");
-      //para1.appendChild(newElem3);
-      //instructionsDiv.appendChild(para3);
-
-      instructionsDiv.appendChild(para1);
-      //instructionsDiv.appendChild(para2);
-      //instructionsDiv.appendChild(para3);
-
-
-
-
+    function pulse(){
+      $(this).animate({opacity:0},1000,function(){
+        $(this).animate({opacity:1},1000,pulse)
+      })
     }
 
+    function stop(){
+      $(this).stop(false,false).css({opacity:1})
+    }
+
+    //attributes methods pulse() and stop() to all elements in class "pulse"
+    $(function(){
+      $('.pulse').each(
+        function(){
+          var that=this;
+          setTimeout(
+            function() {pulse.call(that)},
+            Math.random()*1000);
+          }
+        )
+      })
+
+    function startRecogniser(){
+      if (synth.speaking) {
+        $("#startRecogniser").html("Still speaking..");
+        setTimeout(function () { $("#startRecogniser").html("Start recogniser"); }, 1000);
+      } else {
+        recognition.start();
+        $("#recognitionP").text(" ... listening ");
+        pulse.call($("#recognitionP"));
+      }
+    }
+
+    function activate(){
+      var btn = document.getElementById("activationButton");
+      btn.remove();
+
+      giveInformation().then(value => {
+        $("#startRecogniser").css("visibility", "visible");
+        voices = synth.getVoices();
+        console.log(voices);
+        displayRefugeeSituationSentences();
+        showRandomLanguages();
+        displayInstructions();
+        $("#recognitionP").text(" ... listening");
+        recognition.start();
+
+      });
+
+    }//close activate()
+
+    var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
+
+    function displayInstructions(){
+      let instruction1 = "Say any of these:";
+      $("#instructionsDiv").html("<p>" + instruction1 + "</p>");
+
+    }//close displayInstructions
+
+    function showRandomLanguages() {
+      $("#refugeeSituationDiv").empty();
+
+      var numberOfLanguages = 6;
+      var languagesArrayCopy = languagesArray;
+      var randomIndex;
+      var chosenOne;
+      var shorterLanguagesArray = [];
+
+      for ( var i = 0 ; i < numberOfLanguages ; i ++){
+        randomIndex = Math.floor(Math.random() * languagesArrayCopy.length );
+        chosenOne = languagesArrayCopy[ randomIndex ];
+        shorterLanguagesArray[i] = chosenOne;
+        languagesArrayCopy.splice(randomIndex, 1);
+        $("#refugeeSituationDiv").append(shorterLanguagesArray[i]);
+      }//close for
+
+    }//close showRandomLanguages
+
+    //function createLanguagesArray() {
     function displayRefugeeSituationSentences(){
 
-        //var refugeeSituationDiv = document.getElementById("refugeeSituationDiv");
-        let situation1 = "__ I am " + refugeeSituation1.me.nationality + "    ";
-        let situation2 = "__ I am " + refugeeSituation2.me.nationality + "    ";
-        let situation3 = "__ I am from Finland ";
-        let situation4 = "__ I am " + refugeeSituation4.me.nationality + "    ";
+      //step 1) populate the list of possible languages.
+      //do this only once!
+      //step 2) every time that one reason is given, display a new set of six
+      //languages.
+
+      //does not work to toggle between visible and invisible....
+      //must instead simply generate the list again each time....
+      //OR: generate the list once, and then choose what to display...
+
+      //once this goes to zero, we don't show any more languages:
+      //maxChoices = 6;
+      //display all possible voices:
+      //todo: display only 4 selected voices
+      //my bcp-47 list might be limited?
+
+//*********************************************************************************
+
+      //ALSO!!!! I need to get this to identify the different voices:
+      //ie. there might be several different entries for ru-RU, and I need to
+      //be able to show all of them, or do I?
+      //OR: IF there are three different ru-RU voices, only choose one of them
+      //for the array, because it looks silly when there are two lines that say
+      //"___ I am Russian"
+
+      for(var i=0 ; i < voices.length ; i++){
+        for(var j = 0 ; j < languages.length ; j++){
+          // && maxChoices > 0
+          if( languages[j].bcp === voices[i].lang ){
+            //Here, we are creating several instances of the same language:
+            //because some languages have several voices.. eg. male, female
+            //for the same language/bcp...
+            //for each voice detected, we make an entry in the []:
+            languagesArray[i] = "<p id=" + voices[i].name + " class=" + voices[i].lang + ">__ I am from " + languages[j].country + "</p>";
+            //$("#refugeeSituationDiv").append("<p id=" + voices[i].name + " class=" + voices[i].lang + ">__ I am from " + languages[j].country + "</p>");
+            //maxChoices--;
+          }
+        }
+      }
+      //console.log(refugeeSituationsArray);
 
 
-        var para1 = document.createElement("p");
-        var textNode1 = document.createTextNode(situation1);
-        para1.appendChild(textNode1);
-        //var newElem1 = document.createElement("BR");
-        //para1.appendChild(newElem1);
+      //how to make it so it chooses randomly which ones to display?
 
-        var para2 = document.createElement("p");
-        var textNode2 = document.createTextNode(situation2);
-        para2.appendChild(textNode2);
-        //var newElem2 = document.createElement("BR");
-        //para2.appendChild(newElem2);
+      //now we have appended them all to the refugeeSituationDiv, now let's hide
+      //some of them:
 
-        var para3 = document.createElement("p");
-        var textNode3 = document.createTextNode(situation3);
-        para3.appendChild(textNode3);
-        //var newElem3 = document.createElement("BR");
-        //para3.appendChild(newElem3);
+      //how to: choose
 
-        var para4 = document.createElement("p");
-        var textNode4 = document.createTextNode(situation4);
-        para4.appendChild(textNode4);
-        //var newElem4 = document.createElement("BR");
-        //para4.appendChild(newElem4);
+      //for ( var i = 0; i < maxChoices ; i ++){
+        //Math.floor(Math.random()
 
+        //maxChoices--;
+      //}
 
-        refugeeSituationDiv.appendChild(para1);
-        refugeeSituationDiv.appendChild(para2);
-        refugeeSituationDiv.appendChild(para3);
-        refugeeSituationDiv.appendChild(para4);
+      //to jQuery
+      refugeeSituationDiv.style.borderLeft = "2px dotted black";
 
-        refugeeSituationDiv.style.borderLeft = "2px dotted black";
+    }//close displayRefugeeSituationSentences
 
-    }
-
+    //example code: setTimeout implemented using a promise:
+    //const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    //wait(10*1000).then(() => saySomething("10 seconds")).catch(failureCallback);
 
     var synth = window.speechSynthesis;
     var speakThis = new SpeechSynthesisUtterance;
-    //speakThis.lang = setLanguage();
     speakThis.text = '';
 
-        //to work in either chrome or firefox
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 
     var recognition = new SpeechRecognition;
     recognition.lang = 'en-US';
-    recognition.continuous = true;
-    //recognition.interimResults = false;
+    //recognition.continuous = true;
+
+    recognition.interimResults = true;
 
     var transcript = '';
     var final_transcript = '';
-    var eventcounter = -1;
-    //var speechToText = "";
 
-    //global variable recognitionDiv
-    var recognitionDiv = document.getElementById("recognitionDiv");
-    console.log("This is what we have at recognitionDiv at index zero:" + recognitionDiv.childNodes[0].textContent);
-    recognitionDiv.removeChild(recognitionDiv.firstChild);
+    recognition.onspeechend = function() {
+      //$("#recognitionP").text(" ... ");
+      console.log("speech ended");
+    }
+
+    recognition.onsoundend = function() {
+      console.log("Sound ended");
+    }
+
+    recognition.onsoundstart = function(){
+      //solution?: if sound detected BUT then no speech detected:
+
+    }
+
+    //***************************************************************************
+    //***************************************************************************
+
+    //this works:
+    //speaking I am American etc -> goes into synth speaking
+    //error: no-speech -> reverts to blinking ...
+    //random words -> eventually reverts to blinking ...
+    //this does not work:
+    //some sound detected -> continues blinking listening ...
+    recognition.onend = function () {
+      console.log("At recognition.onend, this is the result: ");
+      console.log(event.results);
+      if( latestSpeechEvent == undefined ){
+        $("#recognitionP").text(" ... ");
+      }
+    }
 
     recognition.onresult = (event) => {
 
-      eventcounter++;
+      console.log(event);
+      stop.call($("#recognitionP"));
 
-      console.log("speech event!");
-      var speechToText = event.results[eventcounter][0].transcript;
+      var speechToText = event.results[0][0].transcript;
 
-      var newParaElement = document.createElement("p");
-      var textNode = document.createTextNode(speechToText);
-      newParaElement.appendChild(textNode);
+      $("#recognitionP").text(speechToText);
+      $("#recognitionP").css("color", "gray");
 
-      console.log('adding text content to recognitionDiv');
-      recognitionDiv.insertBefore(newParaElement, recognitionDiv.childNodes[0]);
-      //node.insertBefore(newnode, existingnode)
-      console.log('added text content to recognitionDiv: ' + speechToText);
+      for(var i = 0 ; i < languages.length ; i++){
 
+        if(speechToText.includes(languages[i].country)){
 
+          var allInstancesOfThisLanguage = document.getElementById("refugeeSituationDiv").getElementsByClassName(languages[i].bcp);
 
-      //var element = document.getElementById("transcriptDiv");
-      //element.appendChild(para);
+          for ( let j = 0 ; j < allInstancesOfThisLanguage.length ; j ++){
+            var boxChecked = allInstancesOfThisLanguage[j].textContent.replace("__", "_X_");
+            allInstancesOfThisLanguage[j].textContent = boxChecked;
+          }
 
-      //console.log('adding text content to recognitionDiv');
-      //document.getElementById("p3").innerHTML = para.innerHTML;
-      //console.log('added text content to p3');
+          oppositionVoiced(refugeeSituationGeneric, languages[i].bcp);
 
-      if (speechToText.includes("I am German")) {
-          console.log("Pressing button: I am German");
-          var boxChecked = refugeeSituationDiv.childNodes[1].textContent.replace("__", "_X_");
-          console.log(boxChecked);
-          refugeeSituationDiv.childNodes[1].textContent = boxChecked;
-          oppositionVoiced(refugeeSituation1);
+        }
+      }//close for
+
+      if (!synth.speaking && event.results[0].isFinal){
+        setTimeout(function() {
+          $("#recognitionP").text(" ...");
+          pulse.call($("#recognitionP"));
+        }, 5000);
+
+      } //end if synth is not speaking and result was final
+
+      if (event.results[0].isFinal && speechToText.includes("what is this")) {
+        giveInformation()
+        .then(value => {
+          //recognition.start();
+          $("#recognitionP").text("...");
+          pulse.call($("#recognitionP"));
+        });
       };
 
-      if (speechToText.includes("I am from Finland")) {
-          console.log("Pressing button: I from Finland");
-          var boxChecked = refugeeSituationDiv.childNodes[3].textContent.replace("__", "_X_");
-          console.log(boxChecked);
-          refugeeSituationDiv.childNodes[3].textContent = boxChecked;
-          oppositionVoiced(refugeeSituation3);
-      };
-
-      if (speechToText.includes("I am American")) {
-          console.log("Pressing button: I am American");
-          var boxChecked = refugeeSituationDiv.childNodes[2].textContent.replace("__", "_X_");
-          console.log(boxChecked);
-          refugeeSituationDiv.childNodes[2].textContent = boxChecked;
-          oppositionVoiced(refugeeSituation2);
-      };
-
-      if (speechToText.includes("I am Portuguese")) {
-          console.log("Pressing button: I am Portuguese");
-          var boxChecked = refugeeSituationDiv.childNodes[4].textContent.replace("__", "_X_");
-          console.log(boxChecked);
-          refugeeSituationDiv.childNodes[4].textContent = boxChecked;
-          oppositionVoiced(refugeeSituation4);
-      };
-
-      if (speechToText.includes("what is this")) {
-          console.log("Giving information");
-          giveInformation()
-          .then(value => recognition.start());
-      };
-
-      if (speechToText.includes('speak my poem')) {
-        console.log("Pressing button: Speak my poem");
-        speakMyPoem()
-        .then(value => recognition.start());
-      };
     }//end recognition.onevent
 
     recognition.onerror = function(event) {
+      //no-speech,
       console.log(event.error);
+      $("#recognitionP").text("...");
+
     };
 
-      //speakMyPoem() is now working!!! WOHOO!!!!
-      //Which means I can go back to implementing some more serious things...
-    function speakMyPoem(){
-      return new Promise(function(resolve, reject){
-
-        console.log("Entered the function and promise, stopping recognition");
+    function giveInformation() {
+      return new Promise( function( resolve, reject ) {
         recognition.stop();
-        var myPoem = "";
-        var lastNodeIndex = recognitionDiv.childNodes.length-1;
-        //we start from lenght-2, because for some reason the p at the last
-        //index is always empty! the second to last one is the one that we see
-        //printed on the screen..
-        console.log("Last Node Index is:" + lastNodeIndex);
-        /*if(recognitionDiv.childNodes[0].textContent == "speak my poem"){
-          synth.speak(speakThis)
-          recognitionDiv.removeChild(recognitionDiv.firstChild);
-          resolve();
-        }else{*/
-
-          console.log("RecognitionDiv includes this many p's:" + recognitionDiv.childNodes.length)
-          console.log("And the last item in the div says this:" + recognitionDiv.childNodes[lastNodeIndex].textContent)
-
-          if(lastNodeIndex==0){
-            //A creative strategy for this case?
-            //make the computer agent create a poem?
-            //but this has to be computational
-            //Its not fun if its always the same result...
-            myPoem = "There is no poem to speak, silly bunny."
-          }else{
-            for (var i = lastNodeIndex; i > 0; i--) {
-              myPoem += recognitionDiv.childNodes[i].textContent + ". ";
-            }
-          }
-
-          console.log("My poem is: " + myPoem);
-          //now its just a question of solving this issue of mandatory user activation.......
-          var speakThis = new SpeechSynthesisUtterance;
-          speakThis.text = myPoem;//the stuff in the recognitionDiv, last to final_transcript
-          synth.speak(speakThis);
-
-          speakThis.onend = function(event) {
-            //console.log('deleting text content');
-            //document.getElementById("p2").innerHTML = "";
-            //console.log('deleted text content');
-            console.log('My poem has finished speaking after ' + event.elapsedTime + ' milliseconds.');
-            eventcounter = -1;
-            while (recognitionDiv.hasChildNodes()) {
-              recognitionDiv.removeChild(recognitionDiv.firstChild);
-            }
-            resolve();
-          };
-        //}
-
-      });//end of return new Promise
-    }//end of speakMyPoem()
-
-    function giveInformation(){
-      return new Promise(function(resolve, reject){
-
-        while (recognitionDiv.hasChildNodes()) {
-          recognitionDiv.removeChild(recognitionDiv.firstChild);
-        }
-
-        console.log("Stopping recognition");
-        recognition.stop();
-        var informationPara = document.createElement("p");
-        var informationTextNode = document.createTextNode(information);
-        informationPara.appendChild(informationTextNode);
-        recognitionDiv.insertBefore(informationPara, recognitionDiv.childNodes[0]);
-
-        //var speakThis is declared as a global variable. This way there is never
-        //any garbage collecting in place of that variable name
-        //multiple instances of speakThis cause confusion for speakThis.onend or
-        //other speech synthesiser events
-        //var speakThis = new SpeechSynthesisUtterance;
+        $("#synthSpeakingDiv").text(">> " + information);
         speakThis.text = information;
         synth.speak(speakThis);
 
         speakThis.onend = function(event) {
-          //console.log('deleting text content');
-          //document.getElementById("p2").innerHTML = "";
-          //console.log('deleted text content');
-          console.log('Information given in: ' + event.elapsedTime + ' milliseconds.');
-          eventcounter = -1;
-          while (recognitionDiv.hasChildNodes()) {
-            recognitionDiv.removeChild(recognitionDiv.firstChild);
-          }
+          while (synthSpeakingDiv.hasChildNodes()) {
+            synthSpeakingDiv.removeChild(synthSpeakingDiv.firstChild);
+          }//end of while
           resolve();
-        };
-      });
+        }//end of speakThis.onend
+      });//end of new Promise
     }//end of giveInformation()
 
-function oppositionVoiced(refugeeSituation){
-  //nationality becomes the voice of the speechSynthesizer;
-  //depending on nationality, we replace the variables refugeeNationality, promisedLand, geographicObstacle, scaryOther, opressor;
-  //these should all exist in an array identified by the nationality of the local who is opposed to refugees.
+    function oppositionVoiced(refugeeSituation, language){
+      recognition.stop();
 
-  //turn off speech recognition
-  recognition.stop();
-  eventcounter = -1;;
+      var myFullandHonestOpinion = replaceCarensGeneralisationWith(refugeeSituation);
+      var myBriefOpinion = chooseSomeSentencesFrom(myFullandHonestOpinion);
+      speakMyOpinion(language, myBriefOpinion);
+      //speakMyOpinion( language, chooseSomeSentencesFrom(replaceCarensGeneralisationWith(refugeeSituation)));
 
+      function replaceCarensGeneralisationWith(refugeeSituation){
+        var myOpinion = [];
+        for (var i = 0; i < carensGeneralisation.length; i++) {
+          myOpinion[i] = carensGeneralisation[i].replace("Jewish refugees", "them");
+          myOpinion[i] = myOpinion[i].replace(/Jew/g, refugeeSituation.refugees.nationality);
+          myOpinion[i] = myOpinion[i].replace("North America", refugeeSituation.refugees.promisedLand);
+          myOpinion[i] = myOpinion[i].replace("Atlantic", refugeeSituation.refugees.geographicalObstacle);
+          myOpinion[i] = myOpinion[i].replace("communists", refugeeSituation.me.scaryOther);
+          myOpinion[i] = myOpinion[i].replace(/Nazi phenomenon/g, refugeeSituation.refugees.opressor);
+        }//end of for
+        return myOpinion;
+      }//end of replaceCarensGeneralisationWith()
 
+      function chooseSomeSentencesFrom(myFullandHonestOpinion){
+        var someSentences = [];
+        someSentences[0] = myFullandHonestOpinion[0];
+        //returns a random integer between 1 and length of array - 1
+        var randomIndex = Math.floor(Math.random() * (myFullandHonestOpinion.length-1)) + 1;
+        //console.log("randomIndex is:" + randomIndex);
+        someSentences[1] = myFullandHonestOpinion[randomIndex];
+        //console.log(someSentences);
+        return someSentences;
+      }//end of chooseSomeSentencesFrom()
 
-  //me.nationality = myNationality;
-  //populateTheRefugeeSituation(myNationality);
-  while (recognitionDiv.hasChildNodes()) {
-    recognitionDiv.removeChild(recognitionDiv.firstChild);
-  }
+      function speakMyOpinion(language, opinion){
+        speakThis.lang = language;
 
-  var myFullandHonestOpinion = replaceCarensGeneralisationWith(refugeeSituation);
-  var myBriefOpinion = chooseSomeSentencesFrom(myFullandHonestOpinion);
-  speakMyOpinion(refugeeSituation.me.nationality, myBriefOpinion);
+        speakOneSentence(opinion[0])
+        .then(value => speakOneSentence(opinion[1]))
+        .then(value => {
+          $("#recognitionP").text(" ... ");
+          console.log("Spoke sentence, pulsing again:");
+          pulse.call($("#recognitionP"));
+          showRandomLanguages();
+          /*for ( i = 1 ; i<refugeeSituationDiv.childNodes.length ; i++){
+            var boxUnChecked = refugeeSituationDiv.childNodes[i].textContent.replace("_X_","__");
+            refugeeSituationDiv.childNodes[i].textContent = boxUnChecked;
+          }*/
+          //recognition.start()
+        });
 
-/*
-  for(i=0; i<someRefugeeSituations.length; i++){
-    if(me.nationality == someRefugeeSituations[i].me.nationality){
-      var oneRefugeeSituation = someRefugeeSituations[i];
-      populateTheRefugeeSituation(oneRefugeeSituation);
-      var myOpinion = replaceCarensGeneralisationWith(refugeeSituation);
-      speakMyOpinion(me.nationality, myOpinion);
-    }
-  }*/
+        function speakOneSentence(sentence){
+          return new Promise(function(resolve, reject){
+            speakThis.text = sentence;
+            synth.speak(speakThis);
+            $("#synthSpeakingDiv").text(">> " + sentence);
 
-  //this doesnt work at all:
-  function populateTheRefugeeSituation(sampleRefugeeSituation){
-    me.nationality = sampleRefugeeSituation.me.nationality;
-    me.scaryOther = sampleRefugeeSituation.me.scaryOther;
-    refugees.nationality = sampleRefugeeSituation.refugees.nationality;
-    refugees.opressor = sampleRefugeeSituation.refugees.opressor;
-    refugees.geographicalObstacle = sampleRefugeeSituation.refugees.geographicalObstacle;
-    refugees.promisedLand = sampleRefugeeSituation.refugees.promisedLand;
-    var refugeeSituation = {me, refugees};
-  };//end of populateTheRefugeeSituation
+            speakThis.onend = function(event) {
+              $("#synthSpeakingDiv").text("");
+              resolve();
+            };
 
-  function replaceCarensGeneralisationWith(refugeeSituation){
-    var myOpinion = [];
-    //we need to create a for loop that loops through carensGeneralisation
-    //and replaces elements in the strings at each index
-    for (var i = 0; i < carensGeneralisation.length; i++) {
-      myOpinion[i] = carensGeneralisation[i].replace("Jewish refugees", "them");
-    //myOpinion[i] = carensGeneralisation[i].replace("Jewish", refugeeSituation.refugees.nationality);
-      myOpinion[i] = myOpinion[i].replace(/Jew/g, refugeeSituation.refugees.nationality);
-      myOpinion[i] = myOpinion[i].replace("North America", refugeeSituation.refugees.promisedLand);
-      myOpinion[i] = myOpinion[i].replace("Atlantic", refugeeSituation.refugees.geographicalObstacle);
-      myOpinion[i] = myOpinion[i].replace("communists", refugeeSituation.me.scaryOther);
-      myOpinion[i] = myOpinion[i].replace(/Nazi phenomenon/g, refugeeSituation.refugees.opressor);
-      console.log(myOpinion[i]);
-    }//end of replaceCarensGeneralisationWith
-    return myOpinion;
-  }//end of replaceCarensGeneralisationWith()
+          });//end of return new Promise
 
-  function chooseSomeSentencesFrom(myFullandHonestOpinion){
-    var someSentences = [];//keep it as an array!
-    someSentences[0] = myFullandHonestOpinion[0];
-    //returns a random integer between 1 and length of array - 1
-    var randomIndex = Math.floor(Math.random() * (myFullandHonestOpinion.length-1)) + 1;
-    console.log("randomIndex is:" + randomIndex);
-    someSentences[1] = myFullandHonestOpinion[randomIndex];
-    console.log(someSentences);
-    return someSentences;
-  }//end of chooseSomeSentencesFrom()
+        }//end of speakOneSentence
 
-  function speakMyOpinion(language, opinion){
-    console.log("Language is: " + language + " and opinion is: " + opinion);
-    //create a way to map me.nationality to the right lang code for the synthesiser
+      }//end of speakMyOpinion()
 
-    if(language == "german"){
-      speakThis.lang = "de-DE";
-    }
-    if(language == "finnish"){
-      speakThis.lang = "fi-FI";
-    }
-    if(language == "american"){
-      speakThis.lang = "en-US";
-    }
-    if(language == "portuguese"){
-      speakThis.lang = "pt-PT";
-    }
+    }//end of oppositionVoiced
 
-    speakOneSentence(opinion[0])
-    .then(value => speakOneSentence(opinion[1]))
-    .then(value => {
-      for (i=1; i<refugeeSituationDiv.childNodes.length;i++){
-        var boxUnChecked = refugeeSituationDiv.childNodes[i].textContent.replace("_X_","__");
-        refugeeSituationDiv.childNodes[i].textContent = boxUnChecked;
-      }
-      recognition.start()
-    });
-
-    function speakOneSentence(sentence){
-      return new Promise(function(resolve, reject){
-        speakThis.text = sentence;
-        synth.speak(speakThis);
-        //synth.resume();
-        var para = document.createElement("p");
-        var node = document.createTextNode(sentence);
-        para.appendChild(node);
-        console.log('adding text content to p2:' + sentence);
-        document.getElementById("p2").innerHTML = para.innerHTML;
-        console.log('added text content to p2');
-        /*var amISpeaking = synth.speaking;
-        if (!amISpeaking){
-          console.log('deleting text content');
-          document.getElementById("p2").innerHTML = "";
-          console.log('deleted text content');
-          //console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
-          resolve('resolved the promise');
-        }*/
-        speakThis.onend = function(event) {
-          console.log('deleting text content');
-          document.getElementById("p2").innerHTML = "";
-          console.log('deleted text content');
-          console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
-          resolve();
-        };
-
-      });//end of return new Promise
-
-    }//end of speakOneSentence
-
-
-    /*speakThis.text = opinion[0];
-    synth.speak(speakThis);
-
-    speakThis.text = opinion[1];
-    synth.speak(speakThis);*/
-
-
-    /*speakThis.onend = function(event) {
-      document.getElementById("p2").innerHTML = "";
-      console.log('deleting text content');
-      console.log('Utterance has finished being spoken after ' + event.elapsedTime + ' milliseconds.');
-    }*/
-
-    //var element = document.getElementById("transcriptDiv");
-    //element.appendChild(para);
-
-
-
-  };//end of speakMyOpinion()
-
-}//end of oppositionVoiced
-
-
-
-
-
-</script>
-
+  </script>
 </body>
-
-
 </html>

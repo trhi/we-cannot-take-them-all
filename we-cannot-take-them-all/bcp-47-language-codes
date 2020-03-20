@@ -8,7 +8,6 @@
 {bcp: "cs-CZ", language: "Czech", country: "Czech Republic"},
 {bcp: "da-DK", language: "Danish", country: "Denmark"},
 {bcp: "de-DE", language: "German", country: "Germany"},
-{bcp: "el-GR", language: "Modern Greek", country: "Greece"},
 {bcp: "en-AU", language: "English", country: "Australia"},
 {bcp: "en-GB", language: "English", country: "United Kingdom"},
 {bcp: "en-IE", language: "English", country: "Ireland"},
@@ -44,5 +43,5 @@
 {bcp: "vi-VN", language: "Vietnamese", country: "Vietnam"},
 {bcp: "zh-CN", language: "Chinese", country: "China"},
 {bcp: "zh-HK", language: "Chinese", country: "Hong Kong"},
-{bcp: "zh-TW", language: "Chinese", country: "Taiwan}
+{bcp: "zh-TW", language: "Chinese", country: "Taiwan"}
 ]

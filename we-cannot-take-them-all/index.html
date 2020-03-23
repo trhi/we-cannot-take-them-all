@@ -117,7 +117,7 @@
       {bcp: "en-AU", language: "English", country: "Australia"},
       {bcp: "en-GB", language: "English", country: "United Kingdom"},
       {bcp: "en-IE", language: "English", country: "Ireland"},
-      {bcp: "en-US", language: "English", country: "United States"},
+      {bcp: "en-US", language: "English", country: "America"},
       {bcp: "en-ZA", language: "English", country: "South Africa"},
       {bcp: "es-ES", language: "Spanish", country: "Spain"},
       {bcp: "es-MX", language: "Spanish", country: "Mexico"},
@@ -136,7 +136,7 @@
       {bcp: "ms-MY", language: "Malaysian", country: "Malaysia"},
       {bcp: "nl-BE", language: "Dutch", country: "Belgium"},
       {bcp: "nl-NL", language: "Dutch", country: "Netherlands"},
-      {bcp: "no-NO", language: "Norwegian", country: "Norway"},
+      {bcp: "nb-NO", language: "Norwegian", country: "Norway"},
       {bcp: "pl-PL", language: "Polish", country: "Poland"},
       {bcp: "pt-BR", language: "Portuguese", country: "Brazil"},
       {bcp: "pt-PT", language: "Portuguese", country: "Portugal"},
@@ -150,14 +150,19 @@
       {bcp: "zh-CN", language: "Chinese", country: "China"},
       {bcp: "zh-HK", language: "Chinese", country: "Hong Kong"},
       {bcp: "zh-TW", language: "Chinese", country: "Taiwan"}
-    ];
+    ]; //reference for any possible synthetic voice languages
 
-    var languagesArray = [];
+    var languagesCopy = [...languages]; //working copy of the above reference
+    var languagesArray = []; //index matching existing languages with available voices
+    var languagesArrayCopy = []; //working copy of above index
 
     var information = "Let's listen to why we cannot take them all. " +
-    "Now, choose a nationality by saying, for example, 'I am from America'." +
-    " For more information, say: 'what is this?'";
+    "Now, choose a nationality by saying, for example, 'I am from America'."
 
+    //including the what is this -instruction:
+    //var information = "Let's listen to why we cannot take them all. " +
+    //"Now, choose a nationality by saying, for example, 'I am from America'." +
+    //" For more information, say: 'what is this?'";
 
     //for testing purposes:
     //var information = "Let's listen";
@@ -202,6 +207,9 @@
     //me.isScaredOf[x] <-> "Some of them are communists and pose a basic security threat"
     //me.howISeeThem[x] <-> "What is happening to the Jews is too bad" etc.
 
+
+//******************************************************************************
+    //implement some poetic evolution here:
     var me = {
       isScaredOf: [
         "extremists",
@@ -229,13 +237,15 @@
         "people from other area",
       ],
       whatIDefineAsMineAndNotTheirs: [
-        "our country",
-        "our area",
-        "our neighborhood",
-        "our hemisphere",
-        "our continent",
-        "our region",
-        "our place"
+        //"our country",
+        //"our area",
+        //"our neighborhood",
+        //"our hemisphere",
+        //"our continent",
+        //"our region",
+        //"our place",
+        //"our lands",
+        "this perimeter of physical ground on planet earth which is mine, mine, mine"
       ]
     };
 
@@ -313,6 +323,7 @@
         $("#startRecogniser").css("visibility", "visible");
         voices = synth.getVoices();
         console.log(voices);
+        //console.log(languages);
         createLanguagesArray();
         showRandomLanguages();
         document.getElementById("refugeeSituationDiv").style.borderLeft = "2px dotted black";
@@ -346,11 +357,14 @@
         $("#refugeeSituationDiv").append(shorterLanguagesArray[i]);
       }//close for
 
+      if(Math.random() > 0.8){
+        $("#refugeeSituationDiv").prepend("__ what is this?");
+
+      }
+
     }//close showRandomLanguages
 
     function createLanguagesArray(){
-      var languagesCopy = [];
-      languagesCopy = languages;
       for(var i = 0 ; i < voices.length ; i++){
         for(var j = 0 ; j < languagesCopy.length ; j++){
           if( voices[i].lang === languagesCopy[j].bcp ){
@@ -360,7 +374,7 @@
               return el != null;
             });
             languagesCopy = filteredLanguagesCopy;
-            j = filteredLanguagesCopy.length+1;
+            j = languagesCopy.length+1;
           }
         }
       }
@@ -385,11 +399,11 @@
 
     recognition.onspeechend = function() {
       //$("#recognitionP").text(" ... ");
-      console.log("speech ended");
+      //console.log("speech ended");
     }
 
     recognition.onsoundend = function() {
-      console.log("Sound ended");
+      //console.log("Sound ended");
     }
 
     recognition.onsoundstart = function(){
@@ -407,7 +421,7 @@
     //this does not work:
     //some sound detected -> continues blinking "listening ..."" !!!!
     recognition.onend = function () {
-      console.log("At recognition.onend, this is the result: ");
+      //console.log("At recognition.onend, this is the result: ");
       //console.log(event.results);
       /*if( event.results[0] === undefined ){
         $("#recognitionP").text(" ... ");
@@ -415,7 +429,7 @@
     }
 
     recognition.onresult = (event) => {
-
+      console.log(event);
       stop.call($("#recognitionP"));
       var speechToText = event.results[0][0].transcript;
       $("#recognitionP").text(speechToText);
@@ -428,7 +442,9 @@
             var boxChecked = allInstancesOfThisLanguage[j].textContent.replace("__", "_X_");
             allInstancesOfThisLanguage[j].textContent = boxChecked;
           }
-          oppositionVoiced(languages[i].bcp);
+          if(event.results[0].isFinal){
+            oppositionVoiced(languages[i].bcp);
+          }
         }
       }//close for
 
@@ -460,7 +476,7 @@
     function whatIsThis() {
       return new Promise( function( resolve, reject ) {
           recognition.stop();
-
+          speakThis.lang = "en-US";
           $("#synthSpeakingDiv").text(">> " + ARTIST.statement);
           speakThis.text = ARTIST.statement;
           synth.speak(speakThis);
@@ -496,6 +512,7 @@
       var myBriefOpinion = chooseSomeSentencesFrom(myFullandHonestOpinion);
       speakMyOpinion(language, myBriefOpinion);
 
+      //this is logging TWO opinions!!!!
       function replaceGeneralisationWithRandom() {
         var myOpinion = [];
         var themIndex = Math.floor(Math.random() * me.howISeeThem.length);
@@ -510,19 +527,6 @@
         console.log(myOpinion);
         return myOpinion;
       }
-
-      function replaceCarensGeneralisationWith(refugeeSituation){
-        var myOpinion = [];
-        for (var i = 0; i < carensGeneralisation.length; i++) {
-          myOpinion[i] = carensGeneralisation[i].replace("Jewish refugees", "them");
-          myOpinion[i] = myOpinion[i].replace(/Jew/g, refugeeSituation.refugees.nationality);
-          myOpinion[i] = myOpinion[i].replace("North America", refugeeSituation.refugees.promisedLand);
-          myOpinion[i] = myOpinion[i].replace("Atlantic", refugeeSituation.refugees.geographicalObstacle);
-          myOpinion[i] = myOpinion[i].replace("communists", refugeeSituation.me.scaryOther);
-          myOpinion[i] = myOpinion[i].replace(/the Nazi phenomenon/g, refugeeSituation.refugees.opressor);
-        }//end of for
-        return myOpinion;
-      }//end of replaceCarensGeneralisationWith()
 
       function chooseSomeSentencesFrom(myFullandHonestOpinion){
         var someSentences = [];

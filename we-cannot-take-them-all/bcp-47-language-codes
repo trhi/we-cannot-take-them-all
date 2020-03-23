@@ -1,5 +1,4 @@
-[
-{bcp: "ar-SA", language: "Arabic", country: "Saudi Arabia"},
+[{bcp: "ar-SA", language: "Arabic", country: "Saudi Arabia"},
 {bcp: "ar-BH", language: "Arabic", country: "Bahrain"},
 {bcp: "ar-EG", language: "Arabic", country: "Egypt"},
 {bcp: "ar-KW", language: "Arabic", country: "Kuwait"},
@@ -30,7 +29,7 @@
 {bcp: "ms-MY", language: "Malaysian", country: "Malaysia"},
 {bcp: "nl-BE", language: "Dutch", country: "Belgium"},
 {bcp: "nl-NL", language: "Dutch", country: "Netherlands"},
-{bcp: "no-NO", language: "Norwegian", country: "Norway"},
+{bcp: "nb-NO", language: "Norwegian", country: "Norway"},
 {bcp: "pl-PL", language: "Polish", country: "Poland"},
 {bcp: "pt-BR", language: "Portuguese", country: "Brazil"},
 {bcp: "pt-PT", language: "Portuguese", country: "Portugal"},
@@ -43,5 +42,4 @@
 {bcp: "vi-VN", language: "Vietnamese", country: "Vietnam"},
 {bcp: "zh-CN", language: "Chinese", country: "China"},
 {bcp: "zh-HK", language: "Chinese", country: "Hong Kong"},
-{bcp: "zh-TW", language: "Chinese", country: "Taiwan"}
-]
+{bcp: "zh-TW", language: "Chinese", country: "Taiwan"}]

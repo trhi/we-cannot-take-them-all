@@ -88,7 +88,7 @@
     "What is happening to the Jews is too bad, but it's not our fault. We cannot take them all. " +
     "We have our own problems. ",
     "If we take in all the Jews who want to come, we will be overwhelmed. " +
-    "There are simply too many of them. ",
+    "There are simply too many of them. There are also quite many of us.",
     "Besides, while Jews may be subject to discrimination and occasional acts of violence, things are not as bad as their advocacy groups say. " +
     "They exaggerate the problem. ",
     "Many of the Jews just want better economic opportunities than they have at home. " +
@@ -136,7 +136,7 @@
       {bcp: "id-ID", language: "Indonesian", country: "Indonesia"},
       {bcp: "it-IT", language: "Italian", country: "Italy"},
       {bcp: "ja-JP", language: "Japanese", country: "Japan"},
-      {bcp: "ko-KR", language: "Korean", country: "Republic of Korea"},
+      {bcp: "ko-KR", language: "Korean", country: "South Korea"},
       {bcp: "ms-MY", language: "Malaysian", country: "Malaysia"},
       {bcp: "nl-BE", language: "Dutch", country: "Belgium"},
       {bcp: "nl-NL", language: "Dutch", country: "Netherlands"},
@@ -160,7 +160,7 @@
     var languagesArray = []; //index matching existing languages with available voices
     var languagesArrayCopy = []; //working copy of above index
 
-    var information = "Let's listen to why we cannot take them all. " +
+    var information = "Let's listen to [[emph +; rate 90]] why [[slnc 400]] [[rate 140]] we cannot take them all. [[rate 200]] [[slnc 1000]] " +
     "Now, choose a nationality by saying, for example, 'I am from America'."
 
     //including the what is this -instruction:
@@ -485,8 +485,23 @@
       return new Promise( function( resolve, reject ) {
           recognition.stop();
           speakThis.lang = "en-US";
-          $("#synthSpeakingDiv").text(">> " + ARTIST.statement);
+          $("#synthSpeakingDiv").text(">> "
+            + ARTIST.statement);
           speakThis.text = ARTIST.statement;
+          //speakThis.text = "This is a test,, of how long pause can,,,,, be made." + ARTIST.statement;
+
+          //ssml does not work!
+          /*speakThis.text = "<speak> First I am going to pause <break time='3s'/>"
+            + ARTIST.statement
+            + "</speak>"
+            */
+          /*var ssml = '<?xml version="1.0"?>' +
+          '<speak>' +
+          '  The <emphasis>second</emphasis> ' +
+          '  word of this sentence was emphasized.' +
+          '</speak>';
+          */
+        //  speakThis.text = ssml;
           synth.speak(speakThis);
           speakThis.onend = function(event) {
             while (synthSpeakingDiv.hasChildNodes()) {

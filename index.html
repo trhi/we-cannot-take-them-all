@@ -6,11 +6,26 @@
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
   <script src="artist-statement.js" ></script>
+  <style>
+  button.roundButton {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: 200px;
+    border: 0px;
+    }
+    </style>
 </head>
 
 <body>
 
-  <button type="button" style="font-size:12; visibility:hidden" id="startRecogniser" onclick="startRecogniser()">Listen to me</button><br>
+  <!--<button type="button" style="font-size:12; visibility:hidden" id="startRecogniser" onclick="startRecogniser()">Listen to me</button><br>-->
+
+<div id="recogniserButtonDiv" style="display:none">
+      <button type="button" class="roundButton" id="startRecogniser" style="background-image: url(images/listen-to-me.png)" onclick="startRecogniser()" </button>
+</div>
 
   <div id="recognitionDiv" style="border:1px dotted black; border-radius:8px; visibility:visible">
     <p id="recognitionP" style="visibility:visible" color="gray" class="pulse"> ... </p>
@@ -314,11 +329,12 @@
 
     function startRecogniser(){
       if (synth.speaking) {
-        $("#startRecogniser").html("Still speaking..");
-        setTimeout(function () { $("#startRecogniser").html("Listen to me"); }, 1000);
+        console.log("Attempting to change background image");
+        $("#startRecogniser").css("background-image", "url(images/i-am-still-speaking.png)");
+        setTimeout(function () { $("#startRecogniser").css("background-image", "url(images/listen-to-me.png)"); }, 2000);
       } else {
         recognition.start();
-        $("#recognitionP").text(" ... listening ");
+        $("#recognitionP").text(" ... I am listening ");
         pulse.call($("#recognitionP"));
       }
     }
@@ -326,6 +342,9 @@
     function activate(){
       var btn = document.getElementById("activationButton");
       btn.remove();
+
+      $("#recogniserButtonDiv").css("display", "block");
+
 
       giveInformation().then(value => {
         $("#startRecogniser").css("visibility", "visible");
@@ -336,7 +355,7 @@
         showRandomLanguages();
         document.getElementById("refugeeSituationDiv").style.borderLeft = "2px dotted black";
         displayInstructions();
-        $("#recognitionP").text(" ... listening");
+        $("#recognitionP").text(" ... I am listening");
         recognition.start();
 
       });
@@ -458,7 +477,7 @@
 
       if (!synth.speaking && event.results[0].isFinal){
         setTimeout(function() {
-          $("#recognitionP").text(" ...");
+          $("#recognitionP").text(" ... I cannot hear you");
           pulse.call($("#recognitionP"));
         }, 5000);
 
@@ -477,7 +496,7 @@
     recognition.onerror = function(event) {
       //no-speech,
       console.log(event.error);
-      $("#recognitionP").text("...");
+      $("#recognitionP").text("... I cannot hear you");
 
     };
 
@@ -565,7 +584,7 @@
         speakOneSentence(opinion[0])
         .then(value => speakOneSentence(opinion[1]))
         .then(value => {
-          $("#recognitionP").text(" ... ");
+          $("#recognitionP").text(" ... I cannot hear you");
           console.log("Spoke sentence, pulsing again:");
           pulse.call($("#recognitionP"));
           showRandomLanguages();

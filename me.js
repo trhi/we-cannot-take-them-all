@@ -9,13 +9,15 @@ var ME = {
   [
     "extremists",
     "terrorists",
+    "wrong in what they think",
     "(by external appearances) so different from me. That makes me scared. I wish everyone looked like me. I am sure many of them should not be trusted",
     "(by external appearances) so different from me. That makes me scared. Because they are not me, I am sure many of them should not be trusted",
-    "(by external appearances) so different from me. That makes me scared. I would feel more safe if they looked like me. I am sure many of them should not be trusted",
-    "simply very different from us",
+    "very very very very very different. And scary",
+    "very different from us",
     "bad people",
     "bad",
     "from other religious groups",
+    "scary",
     "from other cultural groups",
     "too different from us"
   ],
@@ -32,7 +34,7 @@ var ME = {
     "stranger",
     "people from other place",
     "people from other region",
-    "people from other area",
+    "people from other area"
   ],
   "whatIDefineAsMineAndNotTheirs":
   [
@@ -44,6 +46,8 @@ var ME = {
     "our region",
     "our place",
     "our lands",
-    "this portion of planet earth which is ours"
+    "this portion of planet earth which is ours",
+    "this spot of land",
+    "this geographical area on earth"
   ]
 };

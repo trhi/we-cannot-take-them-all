@@ -100,14 +100,30 @@
     let voices; //to store all user synthetic voices
     //var information = "Let's listen.";
 
+    var isSpeechRecognitionSupported = false;
+    try {
+      //disable all of this if window doesn't have webkitSpeechRecognition or SpeechRecognition
+      window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      var listener = new SpeechRecognition;
+      isSpeechRecognitionSupported = true;
+    } catch (err) {
+      console.log("Speech recognition is not supported!!!");
+      window.alert("Please view this work in Chrome");
+      $("#activationButton").prop("disabled",true);
+      $("#activationButton").text("Please view this work in Chrome");
+    }
+
+/*
     if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
       // Great, browser supports the Web Speech API - let's use it
       console.log("Browser supports SpeechRecognition");
     }else {
-      //console.log("Browser does not support SpeechRecognition");
       window.alert("Please view this work in Chrome");
       $("#activationButton").prop("disabled",true);
+      $("#activationButton").text("Please view this work in Chrome");
+
     }
+    */
 
     function pulse(){
       $(this).animate({opacity:0},1000,function(){
@@ -278,6 +294,7 @@
     var speakThis = new SpeechSynthesisUtterance;
     speakThis.text = '';
 
+  if (isSpeechRecognitionSupported){
     window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     var recognition = new SpeechRecognition;
     recognition.lang = 'en-US';
@@ -355,6 +372,8 @@
         }
 
   }//end recognition.onresult
+
+} //end if(isSpeechRecognitionSupported)
 
   </script>
 </body>
